@@ -1,0 +1,57 @@
+proxies:
+- name: flex-ikd
+  interface-name: eth1
+  server: 104.21.71.112
+  port: 443
+  type: trojan
+  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  skip-cert-verify: true
+  sni: blog.clova.line.me
+  network: ws
+  udp: true
+  ws-opts:
+    path: ws://blog.clova.line.me/bukanvvip
+    headers:
+      Host: ikd.bukanvvip.my.id
+- name: flex-ctb
+  interface-name: eth1
+  server: 104.21.71.112
+  port: 443
+  type: trojan
+  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  skip-cert-verify: true
+  sni: blog.clova.line.me
+  network: ws
+  udp: true
+  ws-opts:
+    path: ws://blog.clova.line.me/bukanvvip
+    headers:
+      Host: ctb.bukanvvip.my.id
+- name: flex-id2
+  interface-name: eth1
+  server: 104.21.71.112
+  port: 443
+  type: trojan
+  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  skip-cert-verify: true
+  sni: blog.clova.line.me
+  network: ws
+  udp: true
+  ws-opts:
+    path: ws://blog.clova.line.me/bukanvvip
+    headers:
+      Host: id2.bukanvvip.my.id
+- name: flex-id3
+  interface-name: eth1
+  server: 104.21.71.112
+  port: 443
+  type: trojan
+  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  skip-cert-verify: true
+  sni: blog.clova.line.me
+  network: ws
+  udp: true
+  ws-opts:
+    path: ws://blog.clova.line.me/bukanvvipTJ
+    headers:
+      Host: id3.bukanvvip.my.id

@@ -1,0 +1,13 @@
+proxies:
+- name: game-ikd
+  interface-name: eth1
+  server: 104.16.108.96
+  port: 443
+  type: trojan
+  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  skip-cert-verify: true
+  sni: ikd.bukanvvip.my.id
+  network: ws
+  udp: true
+  ws-opts:
+    path: /bukanvvip

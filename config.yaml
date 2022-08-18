@@ -1,0 +1,198 @@
+---
+redir-port: 7892
+port: 7890
+socks-port: 7891
+mixed-port: 7893
+mode: rule
+log-level: silent
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: '123456'
+bind-address: "*"
+external-ui: "./ui"
+unified-delay: true
+tun:
+  enable: true
+  stack: gvisor #  only gvisor
+  dns-hijack: 
+    - 0.0.0.0:53 # additional dns server listen on TUN
+  auto-route: true # auto set global route
+dns:
+  enable: true
+  use-hosts: true
+  ipv6: false
+  enhanced-mode: redir-host
+  fake-ip-range: 198.18.0.1/16
+  listen: 127.0.0.1:6868
+  default-nameserver:
+    - 127.0.0.1:53
+    - 112.215.37.182
+    - 112.215.37.183
+  nameserver:
+    - 'https://dns.cloudflare.com/dns-query#DNS'
+proxy-providers:
+  akrab:
+    type: file
+    path: "./proxy_provider/cdn.yaml"
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 4000
+  opok:
+    type: file
+    path: "./proxy_provider/opok.yaml"
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 4000
+  flex:
+    type: file
+    path: "./proxy_provider/flex.yaml"
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 4000
+  game:
+    type: file
+    path: "./proxy_provider/game.yaml"
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 4000
+proxy-groups:
+- name: 🚀Proxy
+  type: select
+  proxies:
+  - "Best Ping 🤖"
+  - LB-PAKET
+  use:
+  - akrab
+  - opok
+  - flex
+  - game
+- name: "Best Ping 🤖"
+  type: url-test
+  use:
+  - akrab
+  - opok
+  - flex
+  - game
+  url: https://cp.cloudflare.com/generate_204
+  interval: 9000
+- name: Game 🎮
+  type: select
+  proxies:
+  - ETH1
+  - WWAN0
+  - WLAN0
+- name: Streaming
+  type: select
+  use:
+  - akrab
+  - opok
+  - game
+  - flex
+- name: LB-PAKET
+  type: load-balance
+  strategy: round-robin
+  proxies:
+  - Akrab
+  - Opok
+  - Flex
+  - Game
+- name: "\U0001F3AFOthers"
+  type: select
+  proxies:
+  - Proxy
+  - DIRECT
+- name: Akrab
+  type: select
+  use:
+  - akrab
+- name: Opok
+  type: select
+  use:
+  - opok
+- name: Flex
+  type: select
+  use:
+  - flex
+- name: Game
+  type: select
+  use:
+  - game
+- name: ETH1
+  type: select
+  interface-name: eth1
+  proxies:
+  - DIRECT
+  - REJECT
+  - Akrab
+  - Opok
+  - Flex
+  - Game
+- name: WWAN0
+  type: select
+  interface-name: wwan0
+  proxies:
+  - DIRECT
+  - REJECT
+  - Akrab
+  - Opok
+  - Flex
+  - Game
+- name: WLAN0
+  type: select
+  interface-name: wlan0
+  proxies:
+  - DIRECT
+  - REJECT
+  - Akrab
+  - Opok
+  - Flex
+  - Game
+rules:
+- DOMAIN-KEYWORD,announce,DIRECT,no-resolve
+- DOMAIN-KEYWORD,torrent,DIRECT,no-resolve
+- DOMAIN-KEYWORD,tracker,DIRECT,no-resolve
+- DOMAIN-SUFFIX,smtp,DIRECT,no-resolve
+- DOMAIN-SUFFIX,local,DIRECT,no-resolve
+- IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+- IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+- IP-CIDR6,::1/128,DIRECT,no-resolve
+- IP-CIDR,198.18.0.1/16,REJECT,no-resolve
+- RULE-SET,AdBlock,⛔️ AdBlock ⛔️
+- RULE-SET,rule_portgames,Game 🎮
+- RULE-SET,rule_games,Game 🎮
+- RULE-SET,rule_gaming,Game 🎮
+- RULE-SET,Streaming,Streaming
+- "MATCH,\U0001F3AFOthers"
+
+rule-providers:
+  rule_games:
+    type: file
+    behavior: domain
+    path: "./rule_provider/rule_games.yaml"
+    interval: 6990
+  rule_gaming:
+    type: file
+    behavior: classical
+    path: "./rule_provider/rule_gaming.yaml"
+    interval: 6990
+  rule_portgames:
+    type: file
+    behavior: classical
+    path: "./rule_provider/rule_portgames.yaml"
+    interval: 6990
+  AdBlock:
+    type: file
+    behavior: classical
+    path: "./rule_provider/❌AdBlock.yaml"
+    interval: 86400
+  Streaming:
+    type: file
+    behavior: classical
+    path: "./rule_provider/streaming.yaml"
+    interval: 86400
+profile:
+  store-selected: true
