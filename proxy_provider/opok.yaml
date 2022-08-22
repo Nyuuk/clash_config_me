@@ -4,7 +4,7 @@ proxies:
   server: 104.17.2.81
   port: 443
   type: trojan
-  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  password:
   skip-cert-verify: true
   sni: api.midtrans.com
   network: ws
@@ -18,7 +18,7 @@ proxies:
   server: 104.17.2.81
   port: 443
   type: trojan
-  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  password:
   skip-cert-verify: true
   sni: api.midtrans.com
   network: ws
@@ -32,7 +32,7 @@ proxies:
   server: 104.17.2.81
   port: 443
   type: trojan
-  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  password:
   skip-cert-verify: true
   sni: api.midtrans.com
   network: ws
@@ -46,7 +46,7 @@ proxies:
   server: 104.17.2.81
   port: 443
   type: trojan
-  password: f93e2c6f-5241-4f50-b057-805a3e4bdd79
+  password:
   skip-cert-verify: true
   sni: api.midtrans.com
   network: ws
@@ -55,3 +55,17 @@ proxies:
     path: ws://api.midtrans.com/bukanvvipTJ
     headers:
       Host: id3.bukanvvip.my.id
+- name: opok-nusa
+  interface-name: eth1
+  server: 104.17.2.81
+  port: 443
+  type: trojan
+  password:
+  skip-cert-verify: true
+  sni: api.midtrans.com
+  network: ws
+  udp: true
+  ws-opts:
+    path: ws://api.midtrans.com/trojanws
+    headers:
+      Host: nusa.bukanvvip.my.id
